@@ -10,7 +10,7 @@ function seedOrderData(n) {
   for (let id = 0; id < n; id++) {
     let cart = [];
     let unselectedItems = [...itemCatalog];
-    let itemCount = randomBetween(1, unselectedItems.length);
+    let itemCount = randomBetween(2, 5);
     for (let i = 0; i < itemCount; i++) {
       let chosenIndex = randomBetween(0, unselectedItems.length - 1);
       cart.push(unselectedItems[chosenIndex]);
