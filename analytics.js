@@ -24,12 +24,17 @@ function isEqual(a, b) {
   return a.length == b.length && isSubset(a, b);
 }
 
-function itemsetProbability(itemset) {
-  let occurences = 0;
+function occurences(itemset) {
+  let count = 0;
   for (const order of multiItemOrders) {
-    if (isEqual(itemset, order)) occurences++;
+    if (isEqual(itemset, order)) count++;
   }
-  return occurences / multiItemOrders.length;
+  return count;
+}
+
+function itemsetProbability(itemset) {
+  let count = occurences(itemset);
+  return count / multiItemOrders.length;
 }
 
 const mostPopular = multiItemOrders.sort((a, b) => {
@@ -45,17 +50,3 @@ function recommendItems(cart) {
   const [highestRated] = relevantCarts;
   return highestRated;
 }
-
-const [first, second, third] = mostPopular;
-// console.log(first, itemsetProbability(first));
-// console.log(second, itemsetProbability(second));
-// console.log(third, itemsetProbability(third));
-
-const testcase = [ 1859473571891, 4375322628 ];
-let occurences = 0;
-for (const order of multiItemOrders) {
-  if (isEqual(testcase, order)) occurences++;
-}
-// console.log(occurences, multiItemOrders.length)
-
-console.log(recommendItems([1859473571891]))

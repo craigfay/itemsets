@@ -8,7 +8,7 @@ let data = JSON.parse(fs.readFileSync(datafile, 'utf8'));
 
 // Generate a fresh local copy of recent order data
 async function refresh() {
-  const pages = 50;
+  const pages = 100;
   const orders = await retrieve(pages);
   await write(datafile, JSON.stringify(orders, null, 2));
   data = orders;
