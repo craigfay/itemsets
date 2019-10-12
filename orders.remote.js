@@ -4,6 +4,7 @@ const { endpoint } = require('./secrets');
 // Pagination in Shopify admin API requests is strange.
 // A link to the next page is included in the response headers,
 // But must be parsed, because the syntax is unusual.
+// https://help.shopify.com/en/api/guides/paginated-rest-results
 function formatLinkHeader(link) {
   return link
   .split(' ')[0]
@@ -34,9 +35,12 @@ async function retrieve(pages=1) {
     const fetchNewPage = async url => {
       const response = await fetch(url);
       const json = await response.json();
+      if (!json || !json.orders) resolve(data);
       const formattedOrders = json.orders.map(format);
       formattedOrders.forEach(o => data.push(o))
-      const link = response.headers.get('link');
+      let link = response.headers.get('link');
+      const [previous, next] = link.split(', ');
+      if (next) link = next;
       remainingPages--;
       
       if (remainingPages && link) {
